@@ -362,7 +362,11 @@ class ServiceRestProxy extends RestProxy
                 return $response;
             },
             function ($reason) use ($expected) {
-                $response = $reason->getResponse();
+                if(!method_exists($reason , 'getResponse')) {
+                    $response = null;
+                } else {
+                    $response = $reason->getResponse();
+                }
                 if ($response != null) {
                     self::throwIfError(
                         $response->getStatusCode(),
